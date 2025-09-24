@@ -35,7 +35,7 @@ fsiv_convert_bgr_to_hsv(const cv::Mat &img) {
   //! TODO
   // Hint: use cvtColor.
   // Remember: the input color scheme is assumed to be BGR.
-
+  cvtColor(img, out, 40);
   //
   CV_Assert(out.channels() == 3);
   return out;
