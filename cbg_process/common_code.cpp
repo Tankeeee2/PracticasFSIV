@@ -67,9 +67,24 @@ fsiv_cbg_process(const cv::Mat &in,
   //       color space and process only de V (luma) channel.
 
   out = fsiv_convert_image_byte_to_float(in);
-  cv::pow(out, gamma, out);
-  out = out * contrast;
-  out = out + cv::Scalar::all(brightness);
+
+  if (in.channels() == 3 && only_luma) {
+    out = fsiv_convert_bgr_to_hsv(out);
+    std::vector<cv::Mat> hsv_channels;
+    cv::split(out, hsv_channels);
+    cv::Mat &v_channel = hsv_channels[2];
+    cv::pow(v_channel, gamma, v_channel);
+    v_channel *= contrast;
+    v_channel += brightness;
+    cv::merge(hsv_channels, out);
+    out = fsiv_convert_hsv_to_bgr(out);
+
+  } else {
+    cv::pow(out, gamma, out);
+    out *= contrast;
+    out += cv::Scalar::all(brightness);
+  }
+
   out = fsiv_convert_image_float_to_byte(out);
 
   //
