@@ -4,5 +4,5 @@ build/
 # Ignore archives
 *.zip
 
-# It's common to ignore IDE-specific files, uncomment if you want to
-# .vscode/
+# It's common to ignore IDE-specific files, uncomment if you want to .
+vscode/
