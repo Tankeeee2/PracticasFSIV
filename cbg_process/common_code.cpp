@@ -66,6 +66,12 @@ fsiv_cbg_process(const cv::Mat &in,
   // Hint: if input channels is 3 and only luma is required, convert to HSV
   //       color space and process only de V (luma) channel.
 
+  out = fsiv_convert_image_byte_to_float(in);
+  cv::pow(out, gamma, out);
+  out = out * contrast;
+  out = out + cv::Scalar::all(brightness);
+  out = fsiv_convert_image_float_to_byte(out);
+
   //
   CV_Assert(out.rows == in.rows && out.cols == in.cols);
   CV_Assert(out.depth() == CV_8U);
